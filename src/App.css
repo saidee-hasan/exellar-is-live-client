@@ -1,0 +1,445 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: flex-start; /* Align to top */
+    align-items: center; /* Center horizontally */
+    margin: 0;
+    min-height: 100vh;
+    flex-direction: column;
+    margin-top: 0; /* Body margin top set to 0 */
+}
+
+/* Banner Image */
+.banner {
+    width: 100%;
+    max-width: 400px; /* Set max-width to 400px */
+    height: 200px; /* Height of the banner image */
+    background-image: url('https://i.postimg.cc/5tFXFDLV/Thumbnail-2.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px 20px 0 0; /* Top-left and top-right corners have 20px radius */
+    margin-top: 10px; /* Set margin-top of 10px for the banner */
+    display: block;
+    margin-left: auto; 
+    margin-right: auto; /* Center the banner */
+}
+
+/* Form container */
+.container {
+    width: 100%;
+    max-width: 400px; /* Set max-width for mobile view */
+    padding: 30px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: auto;
+    margin-top: 0px;
+    margin-left: auto; /* Center the form container */
+    margin-right: auto;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 25px;
+    color: #007BFF;
+    font-weight: 800;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Input field styles */
+input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 0 20px;
+    font-size: 14px;
+    height: 50px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9; /* Background color for input fields */
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+/* Select background color changed to #f9f9f9 */
+select {
+    background-color: #f9f9f9; /* Changed to #f9f9f9 */
+    color: #777; /* Default color for "Select Country" */
+    padding-left: 10px; /* Align the text to the left */
+}
+
+/* When country is selected, change text color to blue */
+select option:checked {
+    color: #007BFF; /* Blue color for selected country */
+}
+
+select:focus {
+    color: #007BFF; /* Blue color when focus is on the select box */
+}
+
+input[type="text"]:focus, input[type="number"]:focus, select:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+input[type="text"].filled, input[type="number"].filled, select.filled {
+    color: #007BFF; /* When the field is filled, text color becomes blue */
+}
+
+.form-group p {
+    font-size: 14px; /* Font size smaller */
+    color: #666; /* Lighter color for p tag */
+    margin-top: 8px;
+}
+p{
+font-size: 14px;
+margin-bottom: 14px;
+color: #007BFF;
+font-weight: 500;
+}
+button {
+    width: 100%;
+    height: 50px; /* Set height to 50px */
+    font-size: 14px;
+    background: #ccc; /* Initial gray color (disabled state) */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: not-allowed; /* Initially disabled */
+}
+
+button.enabled {
+    background: linear-gradient(to right, #007BFF, #00BFFF); /* Gradient Blue Color */
+    cursor: pointer; /* Enable cursor */
+}
+
+/* Custom Select */
+.wrapper {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.select-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    padding: 0 15px;
+    font-size: 14px;
+    background: #f9f9f9; /* Changed to #f9f9f9 */
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+    color: #777; /* Default color for the Select Country text */
+}
+
+.select-btn i {
+    font-size: 14px;
+    transition: transform 0.3s linear;
+}
+
+.wrapper.active .select-btn i {
+    transform: rotate(-180deg);
+}
+
+.content {
+    display: none;
+    padding: 20px;
+    margin-top: 10px;
+    background: #f9f9f9; /* Changed to #f9f9f9 */
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.wrapper.active .content {
+    display: block;
+}
+
+.search {
+    position: relative;
+}
+
+.search i {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    color: #999;
+    font-size: 14px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.search input {
+    width: 100%;
+    height: 50px;
+    font-size: 14px;
+    padding-left: 20px;
+    padding-right: 40px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.content .options {
+    margin-top: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.options li {
+    height: 40px;
+    padding: 0 15px;
+    font-size: 14px;
+    line-height: 40px;
+    cursor: pointer;
+    background-color: #f9f9f9; /* Changed to #f9f9f9 */
+}
+
+.options li:hover, li.selected {
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    color: #007BFF; /* Change color to blue when a country is selected */
+}
+
+.options::-webkit-scrollbar {
+    width: 7px;
+}
+
+.options::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 25px;
+}
+
+.options::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 25px;
+}
+
+.options::-webkit-scrollbar-thumb:hover {
+    background: #b3b3b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        max-width: 100%;
+        height: auto;
+        max-height: none;
+    }
+
+    h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .form-group p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    button {
+        padding: 10px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    input[type="text"], input[type="number"], select {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+
+    .form-group p {
+        font-size: 10px;
+    }
+}
+
+
+
+
+
+.payment-option {
+display: flex;
+justify-content: space-around;
+margin-bottom: 20px;
+
+}
+
+.payment-option .option {
+width: 90px;
+height: 50px;
+border-radius: 10px;
+background-color: #fff;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+transition: background-color 0.3s ease, transform 0.3s ease;
+padding: 1px;
+filter: grayscale(100%);
+margin: 10px;
+border: 1px solid #007BFF;
+
+}
+
+.payment-option .option.selected {
+background-color: #fff;
+transform: scale(1.1);
+filter: grayscale(0%);
+}
+
+.payment-option .option img {
+width: 100%;
+height: 100%;
+margin-bottom: 0px;
+margin-top: 0px;
+border-radius: 10px;
+}
+
+.payment-option .option p {
+font-size: 16px;
+font-weight: 700;
+color: #007BFF;
+margin: 0;
+margin-bottom: 5px;
+}
+
+.copy-container {
+display: none;
+margin-top: 20px;
+}
+
+/* Style for the number box */
+.copy-text {
+margin-bottom: 20px;
+background-color: #fff; /* Background color */
+color: #007BFF; /* Text color blue */
+padding: 10px;
+font-size: 20px; /* Bigger font size */
+font-weight: bold; /* Bold text */
+border-radius: 5px;
+display: inline-flex; /* Inline-flex to keep number and button together */
+align-items: center;
+justify-content: space-between;
+width: 100%;
+height: 50px; /* Box height 50px */
+box-sizing: border-box; /* Ensure proper width calculation */
+}
+
+.copy-button {
+background-color: #007BFF; /* Blue color for the button */
+color: white; /* White text color */
+padding: 5px 10px; /* 5px vertical padding, 10px horizontal padding */
+margin-left: 10px; /* 10px margin to the left of the button */
+margin-right: 0px; /* 10px margin to the right of the button */
+border: none;
+border-radius: 5px; /* Rounded button with 5px radius */
+cursor: pointer;
+height: auto; /* Allow height to adjust based on content */
+white-space: nowrap; /* Prevents text from wrapping */
+width: auto; /* Button width adjusts based on content */
+}
+
+.copy-button:hover {
+background-color: #007BFF; /* Hover effect */
+}
+
+.selected-option {
+margin-top: 20px;
+font-size: 16px;
+font-weight: bold;
+color: #333;
+}
+
+/* Input styles */
+.input-box {
+
+width: 100%;
+height: 50px; /* Input box height */
+padding: 10px;
+margin: 20px 0;
+border: 1px solid #ccc;
+border-radius: 5px;
+background-color: #f4f4f9;
+font-size: 16px;
+box-sizing: border-box; /* Ensure proper width calculation */
+color: #007BFF;
+}
+#name,#number{
+color: #007BFF;
+}
+
+
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+#confirmationMessage{
+color: green;
+font-weight: 800;
+}
+
+@keyframes slideEffect {
+0% {
+background-position: 100% 0; /* বাম দিক থেকে শুরু */
+}
+100% {
+background-position: -100% 0; /* ডান দিক পর্যন্ত যাবে */
+}
+}
+
+button {
+position: relative;
+width: 100%;
+height: 50px;
+font-size: 14px;
+background: #ccc; /* Initial gray color (disabled state) */
+color: white;
+border: none;
+border-radius: 8px;
+cursor: not-allowed; /* Initially disabled */
+overflow: hidden; /* To hide the effect outside the button */
+}
+
+button.enabled {
+background: linear-gradient(to right, #007BFF, #00BFFF); /* Gradient Blue Color */
+cursor: pointer; /* Enable cursor */
+}
+
+button.effect {
+background: linear-gradient(to right, #ffffff 50%, #007BFF 50%);
+background-size: 200% 100%;
+animation: slideEffect 3s forwards; /* 3 সেকেন্ড ধরে স্লাইড হবে */
+}
