@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   ChartBarIcon,
   Cog6ToothIcon,
@@ -27,10 +27,11 @@ function Dashboard() {
       useContext(AuthContext);
 
   const navItems = [
+   
+    { icon: UsersIcon, label: 'Users', href: '/admin/users' },
+    { icon: ChartBarIcon, label: 'Payment', href: '/admin/payment' },
+    { icon: Cog6ToothIcon, label: 'Banner', href: '/admin/banner' },
     { icon: HomeIcon, label: 'Home', href: '/' },
-    { icon: UsersIcon, label: 'Users', href: '/users' },
-    { icon: ChartBarIcon, label: 'Analytics', href: '/analytics' },
-    { icon: Cog6ToothIcon, label: 'Settings', href: '/settings' },
   ];
 
   useEffect(() => {
@@ -191,8 +192,8 @@ function Dashboard() {
           <ul className="space-y-2">
             {navItems.map((item, index) => (
               <li key={index}>
-                <a
-                  href={item.href}
+                <Link
+                  to={item.href}
                   className={`flex items-center p-3 rounded-lg transition-colors duration-200 ${
                     activeNavItem === item.label
                       ? 'bg-indigo-50 text-indigo-600'
@@ -205,7 +206,7 @@ function Dashboard() {
                 >
                   <item.icon className="h-6 w-6 mr-3" />
                   <span className="font-medium">{item.label}</span>
-                </a>
+                </Link>
               </li>
             ))}
             <li className="border-t border-gray-200 pt-2">

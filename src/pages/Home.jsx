@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FiChevronDown, FiSearch, FiCheck, FiCopy } from 'react-icons/fi';
+import useAxiosPublic from '../hooks/useAxiosPublic';
+import useAuth from '../hooks/useAuth';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const [countries] = useState([
@@ -24,9 +27,11 @@ const Home = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState(countries);
   const [copied, setCopied] = useState(false);
+  const {user}=useAuth()
 
   const wrapperRef = useRef(null);
   const selectBtnRef = useRef(null);
+  const axiosPublic =useAxiosPublic()
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -89,26 +94,40 @@ const Home = () => {
     e.preventDefault();
     if (!checkFormCompletion()) return;
   
-    // Log form data
-    console.log({
+    setIsSubmitting(true);
+    setIsFormFrozen(true);
+  
+    const data = {
       country: selectedCountry,
       name: name,
       number: number,
       amount: amount,
       senderNumber: senderNumber,
-      paymentMethod: selectedPaymentOption
-    });
+      paymentMethod: selectedPaymentOption,
+      status:"pending",
+      email:user?.email      
+    };
   
-    setIsSubmitting(true);
-    setIsFormFrozen(true);
+    axiosPublic.post('/payment', data)
+      .then(response => {
+        console.log('Payment successful:', response.data);
   
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setShowConfirmation(true);
-    }, 3000);
+        // Delay confirmation after success
+        setTimeout(() => {
+          setIsSubmitting(false);
+          setShowConfirmation(true);
+        }, 3000);
+      })
+      .catch(error => {
+        console.error('Payment failed:', error);
+        setIsSubmitting(false);
+        setIsFormFrozen(false); // allow user to retry
+        
+      });
   };
+  
   const isSubmitEnabled = checkFormCompletion();
-  console.log();
+
 
 
   return (
@@ -121,7 +140,18 @@ const Home = () => {
 
       {/* Form Container */}
       <div className="w-full max-w-md p-6 bg-white rounded-b-2xl shadow-lg flex flex-col justify-center mx-auto">
+    
+     
+        <div className="flex justify-between items-center mb-4">
         <h2 className="text-center mb-6 text-2xl text-blue-600 font-bold">এজেন্ট সাইন আপ</h2>
+        <Link
+            to="/payment-history"
+            className="text-blue-600 hover:text-blue-800 text-sm font-medium underline"
+          >
+            পেমেন্ট হিস্ট্রি দেখুন
+          </Link>
+        
+        </div>
         <form id="myForm" onSubmit={handleSubmit}>
           {/* Country Select Dropdown */}
           <div className="mb-5">
@@ -173,6 +203,7 @@ const Home = () => {
                 </ul>
               </div>
             </div>
+    
           </div>
 
           {/* Name Input */}

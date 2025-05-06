@@ -77,6 +77,7 @@ export default function Register() {
           email: res.user?.email,
           name: res.user?.displayName,
           status: '',
+          role:"admin"
         };
         axiosPublic.post('/users', userInfo);
         handleToast('User registered successfully');
@@ -116,6 +117,7 @@ export default function Register() {
         const userInfo = {
           email: res.user?.email,
           name: res.user?.displayName,
+          role:"admin"
         };
         axiosPublic.post('/users', userInfo);
         navigate('/');
