@@ -28,7 +28,7 @@ function Dashboard() {
 
   const navItems = [
    
-    { icon: UsersIcon, label: 'Users', href: '/admin/users' },
+    // { icon: UsersIcon, label: 'Users', href: '/admin/users' },
     { icon: ChartBarIcon, label: 'Payment', href: '/admin/payment' },
     { icon: Cog6ToothIcon, label: 'Banner', href: '/admin/banner' },
     { icon: HomeIcon, label: 'Home', href: '/' },

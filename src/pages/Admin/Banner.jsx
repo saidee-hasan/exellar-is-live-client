@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import useAxiosPublic from '../../hooks/useAxiosPublic';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiUpload, FiTrash2, FiImage, FiEdit2, FiClock } from 'react-icons/fi';
+import { FiUpload, FiTrash2, FiImage, FiEdit2, FiClock, FiPhone } from 'react-icons/fi';
 
 function Banner() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [description1, setDescription1] = useState('');
   const [description2, setDescription2] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [uploadURL, setUploadURL] = useState('');
   const [loading, setLoading] = useState(false);
   const [banners, setBanners] = useState([]);
@@ -38,9 +39,17 @@ function Banner() {
     }
   };
 
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+    // Basic phone number validation (numbers only)
+    if (/^\d*$/.test(value)) {
+      setPhoneNumber(value);
+    }
+  };
+
   const handleUpload = async () => {
     if (!image || !description1.trim() || !description2.trim()) {
-      toast.error('Please fill in all fields and select an image.');
+      toast.error('Please fill in all required fields and select an image.');
       return;
     }
 
@@ -64,6 +73,7 @@ function Banner() {
         imageUrl: imgData.data.url,
         description1,
         description2,
+        phoneNumber: phoneNumber || null, // Store phone if provided
         timestamp: new Date().toISOString()
       };
 
@@ -79,6 +89,7 @@ function Banner() {
       setPreview(null);
       setDescription1('');
       setDescription2('');
+      setPhoneNumber('');
     } catch (error) {
       toast.error('Upload failed: ' + error.message);
       console.error('Upload error:', error);
@@ -126,9 +137,9 @@ function Banner() {
           transition={{ delay: 0.2 }}
           className="text-4xl font-bold text-gray-800 mb-2"
         >
-          Banner Management
+          Premium Banner Management
         </motion.h2>
-        <p className="text-gray-500 text-lg">Upload and manage your promotional banners</p>
+        <p className="text-gray-500 text-lg">Create stunning promotional banners with call-to-action</p>
       </div>
 
       {/* Upload Card */}
@@ -141,7 +152,7 @@ function Banner() {
             <div className="bg-blue-100 p-3 rounded-full mr-4">
               <FiUpload className="text-blue-600 text-xl" />
             </div>
-            <h3 className="text-2xl font-semibold text-gray-800">Upload New Banner</h3>
+            <h3 className="text-2xl font-semibold text-gray-800">Create New Banner</h3>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -177,25 +188,57 @@ function Banner() {
             {/* Text Inputs */}
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Headline</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Headline (Required)</label>
                 <textarea
                   value={description1}
                   onChange={(e) => setDescription1(e.target.value)}
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   rows="2"
                   placeholder="Enter your main headline..."
+                  required
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Subheadline</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Subheadline (Required)</label>
                 <textarea
                   value={description2}
                   onChange={(e) => setDescription2(e.target.value)}
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   rows="2"
                   placeholder="Enter supporting text..."
+                  required
                 />
+              </div>
+
+              {/* Premium Phone Number Input */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <div className="flex items-center">
+                    <FiPhone className="mr-2 text-blue-500" />
+                    Contact Number (Optional)
+                  </div>
+                </label>
+                <div className="relative">
+                  <input
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={handlePhoneChange}
+                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    placeholder="Enter phone number for calls"
+                    maxLength="15"
+                  />
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span className="text-gray-500">+</span>
+                  </div>
+                </div>
+                {phoneNumber && (
+                  <p className="mt-1 text-xs text-gray-500">
+                    {phoneNumber.length < 10 ? 
+                      'Please enter a valid phone number' : 
+                      'This will be displayed as a clickable link'}
+                  </p>
+                )}
               </div>
               
               <button
@@ -214,7 +257,7 @@ function Banner() {
                 ) : (
                   <>
                     <FiUpload className="mr-2" />
-                    Upload Banner
+                    Publish Banner
                   </>
                 )}
               </button>
@@ -276,6 +319,18 @@ function Banner() {
                   <div className="p-5">
                     <h4 className="font-semibold text-lg mb-1 line-clamp-1">{banner.description1}</h4>
                     <p className="text-gray-600 text-sm mb-4 line-clamp-2">{banner.description2}</p>
+                    
+                    {banner.phoneNumber && (
+                      <div className="mb-3">
+                        <a 
+                          href={`tel:${banner.phoneNumber}`}
+                          className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+                        >
+                          <FiPhone className="mr-2" />
+                          +{banner.phoneNumber}
+                        </a>
+                      </div>
+                    )}
                     
                     <div className="flex items-center text-gray-400 text-xs">
                       <FiClock className="mr-1" />
