@@ -22,7 +22,7 @@ function Payment() {
   const fetchPayments = async () => {
     try {
       setRefreshing(true);
-      const response = await fetch('http://localhost:5000/payment');
+      const response = await fetch('https://exellar.vercel.app/payment');
       if (!response.ok) {
         throw new Error('Failed to fetch payments');
       }
@@ -55,7 +55,7 @@ function Payment() {
         throw new Error('Invalid payment ID');
       }
 
-      const response = await fetch(`http://localhost:5000/payment/${id}`, {
+      const response = await fetch(`https://exellar.vercel.app/payment/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
